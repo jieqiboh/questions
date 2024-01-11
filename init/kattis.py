@@ -6,6 +6,8 @@ from os.path import join, dirname
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
+KATTIS_PATH = os.path.join(os.path.dirname(dirname(__file__)), 'kattis')
+
 # access variables and login
 KATTIS_USERNAME = os.environ.get("KATTIS_USERNAME")
 KATTIS_PW = os.environ.get("KATTIS_PW")
@@ -36,7 +38,7 @@ generate_lines(solved_problems, False, lines)
 generate_lines(tried_problems, True, lines)
 
 # Write to README.md
-file = open("README.md","w")
+file = open(KATTIS_PATH + "/README.md","w")
 
 file.write("Attempted: " + str(len(lines)) + "  \n")
 
