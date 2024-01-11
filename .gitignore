@@ -5,7 +5,7 @@
 **/CMakeLists.txt
 /misc/
 **/cmake-build-debug/
-**/.idea/
+**/.idea
 
 # CPP Gitignore Prerequisites
 *.d
