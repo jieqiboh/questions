@@ -1,0 +1,3 @@
+/Users/jieqiboh/Documents/cpp/2390. Remove Stars/build/CMakeFiles/2390__Remove_Stars.dir
+/Users/jieqiboh/Documents/cpp/2390. Remove Stars/build/CMakeFiles/edit_cache.dir
+/Users/jieqiboh/Documents/cpp/2390. Remove Stars/build/CMakeFiles/rebuild_cache.dir

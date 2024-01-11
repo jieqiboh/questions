@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/Users/jieqiboh/Documents/cpp/2390. Remove Stars/build",
+  "command": "/usr/bin/clang++   -g -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk -o CMakeFiles/2390__Remove_Stars.dir/main.cpp.o -c \"/Users/jieqiboh/Documents/cpp/2390. Remove Stars/main.cpp\"",
+  "file": "/Users/jieqiboh/Documents/cpp/2390. Remove Stars/main.cpp",
+  "output": "CMakeFiles/2390__Remove_Stars.dir/main.cpp.o"
+}
+]
