@@ -3,6 +3,8 @@
 #include <queue>
 #include <stack>
 #include <set>
+#include <unordered_set>
+#include <unordered_map>
 #include <map>
 #include <algorithm>
 #include <cmath>
@@ -13,22 +15,9 @@
 
 using namespace std;
 
-#define uset unordered_set
-#define umap unordered_map
-#define endl '\n'
-
-typedef vector<int> vi;
-
 void fast() {
     ios::sync_with_stdio(false);
     cin.tie(NULL); cout.tie(NULL);
-}
-
-template <typename T> void printVec(vector<T> s) {
-    for (T x : s) {
-        cout << x;
-    }
-    cout << endl;
 }
 
 int main() {
