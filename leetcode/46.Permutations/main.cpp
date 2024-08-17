@@ -31,35 +31,26 @@ class Solution {
 public:
     vector<vector<int>> permute(vector<int>& nums) {
         vector<vector<int>> res;
-
-        for (int i : nums) {
-            dfs(i, nums, res);
-        }
+        vector<int> tempList;
+        unordered_set<int> tempSet; // contains the integers in tempList
+        backtrack(res, tempList, tempSet, nums);
         return res;
     }
 
-    void dfs(int start, vector<int>& nums, vector<vector<int>>& res) {
-        unordered_set<int> visited;
-        stack<vector<int>> s;
-
-        s.push({start});
-        visited.insert(start);
-        while (!s.empty()) {
-            vector<int> cur = s.top();
-            s.pop();
-
-            if (cur.size() == nums.size()) res.push_back(cur);
-
-            for (int i : nums) {
-                if (visited.find(i) == visited.end()) {
-                    vector<int> newVec(cur.begin(), cur.end());
-                    newVec.push_back(i);
-                    s.push(newVec);
-                    visited.insert(i);
+    void backtrack(vector<vector<int>>& res, vector<int> tempList, unordered_set<int>& tempSet, vector<int>& nums) {
+        if (tempList.size() == nums.size()) {
+            res.push_back(tempList);
+        } else {
+            for (int i = 0; i < nums.size(); i++) {
+                if (tempSet.find(nums[i]) == tempSet.end()) {
+                    tempList.push_back(nums[i]);
+                    tempSet.insert(nums[i]);
+                    backtrack(res, tempList, tempSet, nums);
+                    tempSet.erase(nums[i]);
+                    tempList.pop_back();
                 }
             }
         }
-
     }
 };
 
