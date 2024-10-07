@@ -12,15 +12,9 @@
 #include <sstream>
 #include <bitset>
 #include <utility>
+#include <numeric>
 
 using namespace std;
-
-#define uset unordered_set
-#define umap unordered_map
-#define endl '\n'
-
-typedef vector<int> vi;
-typedef long long ll;
 
 void fast() {
     ios::sync_with_stdio(false);
@@ -28,83 +22,71 @@ void fast() {
 }
 
 class Solution {
-        public:
-        void solve(vector<vector<char>>& board) {
-            vector<vector<bool>> visited(board.size(), vector<bool>(board[0].size(),false));
+public:
+    void solve(vector<vector<char>>& board) {
+        // travel around the border, and for each O found, dfs and set to X
 
-            for (int i = 0; i < board.size(); i++) {
-                for (int j = 0; j < board[0].size(); j++) {
-                    if (visited[i][j]) continue;
-                    if (board[i][j] == 'O' && i != board.size() - 1 && j != board[0].size() - 1 && i != 0 && j != 0) { // 'O' and not edge
-                        search(i, j, visited, board);
-                    }
+        for (int j = 0; j < board[0].size(); j++) { // traverse top row
+            int i = 0;
+            if (board[i][j] == 'O') {
+                dfs(i, j, board);
+            }
+        }
+        for (int j = 0; j < board[0].size(); j++) { // traverse bottom row
+            int i = board.size() - 1;
+            if (board[i][j] == 'O') {
+                dfs(i, j, board);
+            }
+        }
+        for (int i = 0; i < board.size(); i++) { // traverse left col
+            int j = 0;
+            if (board[i][j] == 'O') {
+                dfs(i, j, board);
+            }
+        }
+        for (int j = 0; j < board[0].size(); j++) { // traverse right col
+            int i = board[0].size() - 1;
+            if (board[i][j] == 'O') {
+                dfs(i, j, board);
+            }
+        }
+        for (int i = 0; i < board.size(); i++) {
+            for (int j = 0; j < board[0].size(); j++) {
+                if (board[i][j] == 'O') {
+                    board[i][j] = 'X';
+                } else if (board[i][j] == 'Y') {
+                    board[i][j] = 'O';
                 }
             }
         }
+    }
+    void dfs(int i, int j, vector<vector<char>>& board) {
+        // i and j are guaranteed valid (w/in range and O)
+        board[i][j] = 'Y';
+        vector<pair<int,int>> dirs = {{0,1},{0,-1},{1,0},{-1,0}};
 
-        void search(int i, int j, vector<vector<bool>>& visited, vector<vector<char>>& board) {
-            // does bfs starting from this valid i, j
-            vector<pair<int, int>> considered; // contains the current valid region
-            visited[i][j] = true;
-            considered.push_back(make_pair(i, j));
-
-            if (bfs(i - 1, j, considered, board) &&
-                bfs(i + 1, j, considered, board) &&
-                bfs(i, j - 1, considered, board) &&
-                bfs(i, j + 1, considered, board)) {
-                for (pair<int, int> x : considered) {
-                    board[x.first][x.second] = 'X';
-                    visited[x.first][x.second];
-                }
+        for (pair<int,int> dir : dirs) {
+            int newI = i + dir.first;
+            int newJ = j + dir.second;
+            if (newI >= 0 && newI < board.size() && newJ >= 0 && newJ < board[0].size() && board[newI][newJ] == 'O') {
+                dfs(newI, newJ, board);
             }
         }
-
-        bool bfs(int i, int j, vector<pair<int, int>>& considered, vector<vector<char>>& board) {
-            // perform the traversal, updating considered and visited, and returning a boolean if it is valid region
-            if (i < 0 || j < 0 || i >= board.size() || j >= board[0].size()) return true;
-
-            if (board[i][j] == 'O' && (i == board.size() - 1 || j == board[0].size() - 1 || i == 0 || j == 0)) { // edge 'O'
-                return false;
-            } else if (board[i][j] == 'O') {
-                considered.push_back(make_pair(i, j));
-                return bfs(i - 1, j, considered, board) && // top
-                bfs(i + 1, j, considered, board) && // bottom
-                bfs(i, j - 1, considered, board) && // left
-                bfs(i, j + 1, considered, board); // right
-            } else { // 'X'
-                return true;
-            }
-        }
+    }
 };
 
 int main() {
     fast();
 
+    vector<vector<char>> board = {{'X','X','X','X'},{'X','O','O','X'},{'X','X','O','X'},{'X','O','X','X'}};
     Solution sol;
-
-    vector<vector<char>> board = {{'X','X','X','X'},
-                                  {'X','O','O','X'},
-                                  {'X','X','O','X'},
-                                  {'X','O','X','X'}};
-
     sol.solve(board);
-
-    for (auto& x : board) {
-        for (auto y : x) {
-            cout << y << " ";
+    for (vector<char> vc : board) {
+        for (char c : vc) {
+            cout << c << " ";
         }
         cout << "\n";
     }
-    
-    board = {{'O','O','O','O','X','X'},
-             {'O','O','O','O','O','O'},
-             {'O','X','O','X','O','O'},
-             {'O','X','O','X','X','O'},
-             {'O','X','O','X','O','O'},
-             {'O','X','O','O','O','O'}};
-
-
-    
 
     return 0;
 }

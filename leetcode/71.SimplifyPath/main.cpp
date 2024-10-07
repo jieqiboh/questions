@@ -15,13 +15,6 @@
 
 using namespace std;
 
-#define uset unordered_set
-#define umap unordered_map
-#define endl '\n'
-
-typedef vector<int> vi;
-typedef long long ll;
-
 void fast() {
     ios::sync_with_stdio(false);
     cin.tie(NULL); cout.tie(NULL);
@@ -30,60 +23,36 @@ void fast() {
 class Solution {
 public:
     string simplifyPath(string path) {
-        stack<char> s;
-        s.push(path[0]);
-        string res;
-        int dot_count = 0; // represents the number of dots in the stack
+        stack<string> s;
+        string cur = "";
 
-        for (int i = 1; i < path.size(); i++) {
-            char c = path[i];
-            char top = s.top();
-
+        for (char c : path + "/") {
             if (c == '/') {
-                if (top == '/') { // ?//
-                    s.pop();
-                    s.push(c);
-                } else if (top == '.') { // ./
-                    if (dot_count == 1) { // ?../
-                       dot_count--;
-
-
-                    } else if (dot_count == 2) {
-
-                    } else {
-
-                    }
+                if (cur == "..") {
+                    if (!s.empty()) s.pop();
+                } else if (cur != "" && cur != ".") {
+                    s.push(cur);
                 }
-            } else if (c == '.') {
-                if (top != '.') {
-                    res += s.top();
-                    s.pop();
-                }
-                s.push(c);
-                dot_count++;
+                cur = "";
             } else {
-                if (top == '/') {
-                    res += s.top();
-                    s.pop();
-                    s.push(c);
-                } else if (top == '.') {
-                    if (dot)
-
-                } else {
-
-                }
+                cur += c;
             }
         }
-
+        string res = "";
+        while (!s.empty()) {
+            res = ("/" + s.top()) + res;
+            s.pop();
+        }
+        return (res == "") ? "/" : res;
     }
 };
 
 int main() {
     fast();
-
     Solution sol;
     string path = "/home/";
-    cout << sol.simplifyPath(path) << "\n"; // "/home"
+    cout << sol.simplifyPath(path) << "\n";
+
 
     path = "/home//foo/";
     cout << sol.simplifyPath(path) << "\n"; // "/home/foo"
@@ -91,8 +60,6 @@ int main() {
     path = "/home/user/Documents/../Pictures";
     cout << sol.simplifyPath(path) << "\n"; // "/home/user/Pictures"
 
-    path = "/";
-    cout << sol.simplifyPath(path) << "\n"; // "/"
     return 0;
 }
 

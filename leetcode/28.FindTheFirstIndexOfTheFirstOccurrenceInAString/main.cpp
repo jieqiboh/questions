@@ -30,14 +30,43 @@ void fast() {
 class Solution {
 public:
     int strStr(string haystack, string needle) {
-        for (int i = 0; i < haystack.size(); i++) {
-            if (haystack[i] == needle[0]) {
-                if (haystack.substr(i, needle.length()) == needle) {
-                    return i;
-                }
+        // KMP Algorithm
+        // The usual naive method takes O(nm) time
+        // Longest Prefix Suffix Array
+        // Observation:
+        vector<int> lps = prefix_function(haystack);
+        int n = haystack.size();
+        int m = needle.size();
+        if (m > n) return -1;
+        if (m == n) return (haystack == needle) ? 0 : -1;
+        if (haystack == "") return -1;
+
+        int i = 0;
+        int j = 0;
+        while (i < n && j < m) {
+            if (haystack[i] == needle[j]) {
+                i++;
+                j++;
+            } else if (j > 0) {
+                j = lps[j - 1];
+            } else {
+                i++;
             }
         }
-        return -1;
+        return (j < m) ? -1 : i - m;
+    }
+    vector<int> prefix_function(string s) {
+        int n = (int)s.length();
+        vector<int> pi(n, 0);
+        for (int i = 1; i < n; i++) {
+            int j = pi[i-1];
+            while (j > 0 && s[i] != s[j])
+                j = pi[j-1];
+            if (s[i] == s[j])
+                j++;
+            pi[i] = j;
+        }
+        return pi;
     }
 };
 
@@ -45,8 +74,12 @@ int main() {
     fast();
 
     Solution sol;
-    string haystack = "leetcode";
-    string needle = "leeto";
+    string haystack = "abaaabaabcabaabafabaa";
+    string needle = "abaabcabaabafaba";
+    cout << sol.strStr(haystack, needle) << "\n"; // -1
+
+    haystack = "leetcode";
+    needle = "leeto";
     cout << sol.strStr(haystack, needle) << "\n"; // -1
 
     haystack = "isadsads";

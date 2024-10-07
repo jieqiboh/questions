@@ -65,6 +65,10 @@ public:
 int main() {
     fast();
 
+    vector<string> arr = {"apple", "banana", "cherry", "date"};
+    // Sort in reverse lexicographical order
+    sort(arr.begin(), arr.end(), greater<string>());
+
     Solution sol;
     vector<vector<int>> intervals = {{1,3},{15,18},{8,10},{2,6}};
 

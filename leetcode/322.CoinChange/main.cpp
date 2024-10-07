@@ -30,26 +30,29 @@ void fast() {
 class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {
-        vector<vector<int>> dp(amount + 1, vector<int>(coins.size(), amount + 1));
+        sort(coins.begin(), coins.end());
+        vector<vector<int>> dp(amount + 1, vector<int>(coins.size() + 1, amount + 1));
 
-        for (int i = 0; i < coins.size(); i++) {
-            dp[0][i] = 0;
+        // each cell reps the min num of coins to make i amt given those available coins
+        for (int j = 0; j < dp[0].size(); j++) { // init first row
+            dp[0][j] = 0;
         }
-        for (int i = 0; i <= amount; i++) {
-            for (int j = 0; j < coins.size(); j++) {
-                if (i - coins[j] == 0) {
-                    dp[i][j] = 1;
-                } else if (i - coins[j] > 0) {
-                    dp[i][j] = 1 + dp[i - coins[j]][j];
-                } else {
-                    if (j - 1 >= 0) {
-                        dp[i][j] = dp[i][j - 1];
-                    }
+        for (int i = 0; i < dp.size(); i++) { // init first col - min num of coins if coin val is 0
+            dp[i][0] = amount + 1;
+        }
+        for (int i = 1; i < dp.size(); i++) {
+            for (int j = 1; j < dp[0].size(); j++) {
+                int coin = coins[j - 1];
+                // exclude current coin
+                dp[i][j] = dp[i][j - 1];
+
+                // can include current coin
+                if (coin <= i) {
+                    dp[i][j] = min(dp[i][j], 1 + dp[i - coin][j]);
                 }
             }
         }
-
-        return dp[amount][coins.size() - 1] > amount ? -1 : dp[amount][coins.size() - 1];
+        return (dp[amount][coins.size()] == amount + 1) ? -1 : dp[amount][coins.size()];
     }
 };
 
