@@ -23,36 +23,42 @@ void fast() {
 class Solution {
 public:
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
-        // for each node, do a dfs
+        // topological sort
+        // traverse starting with terminal nodes
+        // treat graph as in_degree
+        queue<int> q;                        // nodes w in_deg 0
+        vector<int> in_deg(graph.size()); // contains in_deg of each node
+        vector<int> order;                   // contains ans
 
-        unordered_map<int, vector<int>> adjList;
-        for (int i = 0; i < graph.size(); i++) { // init adjList
-            for (int j : graph[i]) {
-                adjList[i].push_back(j);
+        vector<vector<int>> newG(graph.size(), vector<int>());
+        for (int i = 0; i < graph.size(); i++) { // reverse edges
+            for (int x : graph[i]) {
+                newG[x].push_back(i);
             }
         }
 
-        unordered_set<int> visited;
-        stack<int> s;
-        stack<int> recStack;
-
-        s.push(0);
-        while (!s.empty()) {
-            int curNode = s.top();
-            s.pop();
-
-            if (visited.find(curNode) == visited.end()) { // proces
-                cout << curNode << " ";
-                visited.insert(curNode);
+        for (int i = 0; i < graph.size(); i++) {
+            in_deg[i] = graph[i].size();
+        }
+        for (int i = 0; i < graph.size(); i++) { // push all terminal nodes
+            if (in_deg[i] == 0) {
+                q.push(i);
             }
+        }
+        while (!q.empty()) {
+            int cur = q.front();
+            q.pop();
 
-            for (int neighbour : adjList[curNode]) {
-                if (visited.find(neighbour) == visited.end()) {
-                    s.push(neighbour);
+            order.push_back(cur);
+            for (int nbr : newG[cur]) {
+                in_deg[nbr]--;
+                if (in_deg[nbr] == 0) {
+                    q.push(nbr);
                 }
             }
         }
-        return {};
+        sort(order.begin(), order.end());
+        return order;
     }
 };
 
@@ -60,7 +66,11 @@ int main() {
     fast();
     Solution sol;
     vector<vector<int>> graph = {{1,2},{2,3},{5},{0},{5},{},{}};
-    sol.eventualSafeNodes(graph);
+    vector<int> res = sol.eventualSafeNodes(graph);
+    for (int i : res) {
+        cout << i << " ";
+    }
+    cout << "\n";
 
     return 0;
 }

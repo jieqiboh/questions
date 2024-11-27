@@ -13,8 +13,8 @@
 #include <bitset>
 #include <utility>
 #include <numeric>
-#define ll long long
 
+#define ll long long
 using namespace std;
 
 void fast() {
@@ -24,6 +24,16 @@ void fast() {
 
 int main() {
     fast();
+
+    ll n;
+    cin>>n;
+    ll x[n];
+    set<ll> s;
+    for(int i=0;i<n;i++) {
+        cin>>x[i];
+        s.insert(x[i]);
+    }
+    cout<<s.size();
 
     return 0;
 }

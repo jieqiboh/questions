@@ -24,6 +24,23 @@ void fast() {
 
 int main() {
     fast();
+    int rnds = 0; // cur round
+
+    set<int> st;
+    int n; cin >> n;
+//    vector<int> nums(n);
+//    for (int i = 0; i < nums.size(); i++) {
+//        cin >> nums[i];
+//    }
+
+    for (int i = 0; i < n; i++) {
+        int x; cin >> x;
+        if (st.find(x-1) == st.end()) { // prev value comes after
+            rnds++;
+        }
+        st.insert(x);
+    }
+    cout << rnds;
 
     return 0;
 }

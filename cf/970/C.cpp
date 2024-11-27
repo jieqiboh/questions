@@ -13,7 +13,6 @@
 #include <bitset>
 #include <utility>
 #include <numeric>
-#define ll long long
 
 using namespace std;
 
@@ -22,8 +21,23 @@ void fast() {
     cin.tie(NULL); cout.tie(NULL);
 }
 
+void solve() {
+    int l, r; cin >> l >> r;
+    int i = 1;
+    int cnt = 1;
+    while (l < r) {
+        l += i;
+        i++;
+        cnt++;
+    }
+    if (l > r) cnt--;
+    cout << cnt << "\n";
+}
+
 int main() {
     fast();
+    int t; cin >> t;
+    while (t--) solve();
 
     return 0;
 }

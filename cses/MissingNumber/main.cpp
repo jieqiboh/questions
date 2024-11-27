@@ -13,7 +13,6 @@
 #include <bitset>
 #include <utility>
 #include <numeric>
-#define ll long long
 
 using namespace std;
 
@@ -24,7 +23,21 @@ void fast() {
 
 int main() {
     fast();
-
+    int n; cin >> n;
+    vector<int> nums;
+    for (int i = 1; i <= n; i++) {
+        nums.push_back(i);
+    }
+    int cur;
+    cin >> cur;
+    for (int i = 1; i < n - 1; i++) {
+        int tmp; cin >> tmp;
+        cur ^= tmp; // xor
+    }
+    for (int i : nums) {
+        cur ^= i;
+    }
+    cout << cur;
     return 0;
 }
 

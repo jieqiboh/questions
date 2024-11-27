@@ -24,6 +24,18 @@ void fast() {
 
 int main() {
     fast();
+    int n; cin >> n;
+
+    vector<pair<int,int>> ranges(n);
+    while (n--) {
+        int x; cin >> x;
+        int y; cin >> y;
+        ranges.push_back({x, y});
+    }
+    sort(ranges.begin(), ranges.end(), [](const pair<int,int>& a, pair<int,int>& b) {
+        if (a.first == b.first) return a.second > b.second;
+        return a.first < b.first;
+    })
 
     return 0;
 }

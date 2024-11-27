@@ -13,7 +13,6 @@
 #include <bitset>
 #include <utility>
 #include <numeric>
-#define ll long long
 
 using namespace std;
 
@@ -24,7 +23,18 @@ void fast() {
 
 int main() {
     fast();
+    long long num; cin >> num;
 
+    while (num != 1) {
+        cout << num << " ";
+        if (num % 2 == 0) {
+            num /= 2;
+        } else {
+            num *= 3;
+            num += 1;
+        }
+    }
+    cout << "1";
     return 0;
 }
 

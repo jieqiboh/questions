@@ -22,8 +22,30 @@ void fast() {
     cin.tie(NULL); cout.tie(NULL);
 }
 
+void solve() {
+    int n; cin >> n;
+    int cur; cin >> cur;
+
+    string ignore;
+    n--;
+    while (n--) {
+//        cout << cur << " ";
+        int nxt; cin >> nxt;
+        int x = abs(cur - nxt);
+        if (x != 7 && x != 5) {
+            cout << "NO" << "\n";
+            getline(cin, ignore);
+            return;
+        }
+        cur = nxt;
+    }
+    cout << "YES" << "\n";
+}
+
 int main() {
     fast();
+    int t; cin >> t;
+    while (t--) solve();
 
     return 0;
 }
