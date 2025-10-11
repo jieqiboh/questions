@@ -32,9 +32,25 @@ public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
         // Find the array with the smaller length first
         // The other array is guaranteed to have elements in the right, since it is larger
-        int la = 0; int ra = nums1.size() - 1;
-        int lb = 0; int rb = nums2.size() - 1;
-        // we want to do binsearches until all
+        // arr b is the smaller one
+        vector<int> a, b;
+
+        if (nums1.size() >= nums2.size()) {
+            a = nums1;
+            b = nums2;
+        } else {
+            a = nums1;
+            b = nums2;
+        }
+        int la, lb = 0;
+        int ra = a.size();
+        int rb = b.size();
+
+        int mida = (ra + la) / 2;
+        int midb = (rb + lb) / 2;
+
+        // account for the case where either array is empty
+        // if a[mid
 
     }
 };

@@ -13,7 +13,8 @@
 #include <bitset>
 #include <utility>
 #include <numeric>
-#define ll long long
+using ll = long long;
+using i128 = __int128_t;
 
 using namespace std;
 
