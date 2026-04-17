@@ -30,28 +30,39 @@ void fast() {
 class Solution {
 public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-        // Find the array with the smaller length first
-        // The other array is guaranteed to have elements in the right, since it is larger
-        // arr b is the smaller one
         vector<int> a, b;
-
-        if (nums1.size() >= nums2.size()) {
-            a = nums1;
-            b = nums2;
+        int m, n;
+        if (nums1.size() <= nums2.size()) {
+            a = nums1; b = nums2;
+            m = nums1.size(); n = nums2.size();
         } else {
-            a = nums1;
-            b = nums2;
+            a = nums2; b = nums1;
+            m = nums2.size(); n = nums1.size();
         }
-        int la, lb = 0;
-        int ra = a.size();
-        int rb = b.size();
 
-        int mida = (ra + la) / 2;
-        int midb = (rb + lb) / 2;
+        int low = 0, high = m;
 
-        // account for the case where either array is empty
-        // if a[mid
+        while (low <= high) {
+            int i = (low + high) / 2;
+            int j = (m + n) / 2 - i;
 
+            int maxLeft1  = (i == 0) ? INT_MIN : a[i-1];
+            int minRight1 = (i == m) ? INT_MAX : a[i];
+            int maxLeft2  = (j == 0) ? INT_MIN : b[j-1];
+            int minRight2 = (j == n) ? INT_MAX : b[j];
+
+            if (maxLeft1 <= minRight2 && maxLeft2 <= minRight1) {
+                if ((m + n) % 2 == 1)
+                    return max(maxLeft1, maxLeft2);
+                else
+                    return (max(maxLeft1, maxLeft2) + min(minRight1, minRight2)) / 2.0;
+            } else if (maxLeft1 > minRight2) {
+                high = i - 1;
+            } else {
+                low = i + 1;
+            }
+        }
+        return -1; // unreachable
     }
 };
 
